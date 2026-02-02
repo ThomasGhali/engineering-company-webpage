@@ -64,18 +64,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
 
-    // @ts-expect-error
     async session({ session, token }) {
       // Extract and type-narrow token properties
       const username = token.username as string | undefined;
       const tokenVersion = token.tokenVersion as number | undefined;
 
-      if (username && tokenVersion && session.user) {
+      console.log(
+        'Session Callback - username:',
+        username,
+        'tokenVersion in token:',
+        tokenVersion,
+      );
+
+      // 
+      if (username && tokenVersion !== undefined && session.user) {
         const dbUser = await getUserFromDb(username);
+
+        console.log(
+          'dbUser from DB:',
+          dbUser?.username,
+          'dbUser.tokenVersion:',
+          dbUser?.tokenVersion,
+        );
 
         // If user doesn't exist or token version doesn't match, invalidate the session
         if (!dbUser || dbUser.tokenVersion !== tokenVersion) {
-          return null;
+          return { ...session, user: undefined };
         }
       }
 

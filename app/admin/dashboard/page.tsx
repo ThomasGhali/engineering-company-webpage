@@ -1,5 +1,8 @@
-import { auth } from '@/auth';
+import { auth, signOut } from '@/auth';
 import { redirect } from 'next/navigation';
+
+import { Button } from '@/components/ui/button';
+import LogoutButton from '@/features/dashboard/components/logout-button';
 
 export default async function Dashboard() {
   const session = await auth();
@@ -8,5 +11,10 @@ export default async function Dashboard() {
     redirect('/admin/sign-in');
   }
 
-  return <>Welcome, {session.user.name}</>;
+  return (
+    <>
+      <LogoutButton />
+      <p>Welcome, {session.user.name}</p>
+    </>
+  );
 }
