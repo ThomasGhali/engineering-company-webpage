@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma';
-import bcrypt from 'bcryptjs';
+
+import { saltAndHash } from '@/lib/utils';
 
 const seedHeaderMenu = async () => {
   await prisma.headerMenuItem.create({
@@ -303,7 +304,7 @@ const seedAdmin = async () => {
     );
   }
 
-  const hashedPassword = await bcrypt.hash(plainPassword, 10);
+  const hashedPassword = await saltAndHash(plainPassword);
 
   await prisma.admin.create({
     data: {

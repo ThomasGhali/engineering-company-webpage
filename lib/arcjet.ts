@@ -13,7 +13,6 @@ export const aj = arcjet({
       refillRate: 5,
       interval: 3600,
       capacity: 10,
-      characteristics: ['fingerprint'],
     }),
   ],
 });

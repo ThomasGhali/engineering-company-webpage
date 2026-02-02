@@ -8,6 +8,10 @@ import { headers } from 'next/headers';
 
 import { aj } from '@/lib/arcjet';
 
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_KEY);
+
 export async function submitContactForm(
   prevState: FormState,
   formData: unknown,
@@ -16,11 +20,12 @@ export async function submitContactForm(
     headers: await headers(),
   });
 
+  // Validate request & consume 1 credit
   const decision = await aj.protect(req, {
     requested: 1,
-    fingerprint: 'testing-user-123',
   });
 
+  // Rate limit reached (denied)
   if (decision.isDenied()) {
     if (decision.reason.isRateLimit()) {
       return {
@@ -30,6 +35,7 @@ export async function submitContactForm(
       };
     }
 
+    // Bot is used to submit  the form (denied)
     if (decision.reason.isBot()) {
       return {
         success: false,
@@ -45,7 +51,7 @@ export async function submitContactForm(
     };
   }
 
-  // make sure formData is in right type (in runtime)
+  // Make sure formData is in right type (in runtime)
   if (!(formData instanceof FormData)) {
     return {
       success: false,
@@ -54,8 +60,8 @@ export async function submitContactForm(
     };
   }
 
+  // Convert FormData data format to literal object
   const rawData = Object.fromEntries(formData.entries());
-
   const result = contactFormSchema.safeParse(rawData);
 
   if (!result.success) {
@@ -70,8 +76,23 @@ export async function submitContactForm(
   const validatedData = result.data;
 
   try {
+    // Create Message in DB
     await prisma.messages.create({
       data: validatedData,
+    });
+
+    // Send Message to mail via "resend"
+    await resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: 'thomasmetias29@gmail.com',
+      subject: validatedData.about,
+      html: `
+      <p><strong>Name:</strong> ${validatedData.firstName} ${validatedData.lastName}</p>
+      <p><strong>Email:</strong> ${validatedData.email}</p>
+      <p><strong>Country:</strong> ${validatedData.country || 'Not Provided'}</p>
+      <p><strong>Phone:</strong> ${validatedData.phone || 'Not Provided'}</p>
+      <p><strong>Message:</strong> ${validatedData.message}</p>
+      `,
     });
 
     return {

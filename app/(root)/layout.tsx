@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import Footer from '@/components/layout/footer/footer';
 import MainHeader from '@/components/layout/header/components/main-header';
+import { Toaster } from 'sonner';
 
 export default function HomeLayout({
   children,
@@ -12,12 +13,13 @@ export default function HomeLayout({
       {/* <Suspense>
         <MainHeader />
       </Suspense> */}
-      
+
       {children}
 
       {/* <Suspense>
         <Footer />
-      </Suspense> */}
+      </Suspense>
+      <Toaster position="top-center" duration={2000} /> */}
     </>
   );
 }

@@ -24,6 +24,7 @@ import FormResetBtn from '@/features/contact-us/components/form-reset-btn';
 import { submitContactForm } from '@/features/contact-us/actions';
 
 import { useRouter } from 'next/navigation';
+import AnimatedLogo from '@/public/animated-logo';
 
 const ContactUsForm = () => {
   const router = useRouter();
@@ -149,7 +150,7 @@ const ContactUsForm = () => {
             register={register}
             name="about"
             optionsArray={ABOUT_OPTIONS as unknown as string[]}
-            placeholder="Select a Country"
+            placeholder="Select an Option"
             required
           />
 
@@ -186,6 +187,8 @@ const ContactUsForm = () => {
               'Submit'
             )}
           </Button>
+          {/* dello animatedLogo with its asset if not used somewhere else */}
+          <AnimatedLogo />
         </Field>
       </form>
     </>
