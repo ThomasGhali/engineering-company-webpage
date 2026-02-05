@@ -10,16 +10,16 @@ export default function HomeLayout({
 }>) {
   return (
     <>
-      {/* <Suspense>
+      <Suspense>
         <MainHeader />
-      </Suspense> */}
+      </Suspense>
 
       {children}
 
-      {/* <Suspense>
+      <Suspense>
         <Footer />
       </Suspense>
-      <Toaster position="top-center" duration={2000} /> */}
+      <Toaster position="top-center" duration={2000} />
     </>
   );
 }

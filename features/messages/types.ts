@@ -1,7 +1,7 @@
 export type Message = {
   firstName: string;
   lastName: string;
-  email: string | null;
+  email: string;
   country: string | null;
   phone: string | null;
   createdAt: Date;

@@ -4,12 +4,21 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/features/dashboard/components/dashboard-sidebar';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 
-export default function HomeLayout({
+
+export default async function HomeLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+    const session = await auth();
+
+  if (!session?.user) {
+    redirect('/admin/sign-in');
+  }
+
   return (
     <>
       <SidebarProvider>

@@ -1,30 +1,26 @@
 'use client';
 
 import { useActionState, startTransition, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useForm } from 'react-hook-form';
+import { Loader2Icon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Loader2Icon } from 'lucide-react';
 import { toast } from '@/components/ui/sonner';
-
 import { Field, FieldGroup } from '@/components/ui/field';
-
-import { contactFormSchema, FormState } from '@/features/contact-us/types';
-import { ABOUT_OPTIONS, COUNTRIES } from '@/features/contact-us/constants';
 
 import FormInput from '@/features/contact-us/components/form-input';
 import FormSelect from '@/features/contact-us/components/form-select';
 import FormTextarea from '@/features/contact-us/components/form-textarea';
 import FormResetBtn from '@/features/contact-us/components/form-reset-btn';
 
+import { contactFormSchema, FormState } from '@/features/contact-us/types';
+import { ABOUT_OPTIONS, COUNTRIES } from '@/features/contact-us/constants';
 import { submitContactForm } from '@/features/contact-us/actions';
-
-import { useRouter } from 'next/navigation';
-import AnimatedLogo from '@/public/animated-logo';
 import { inputFields } from '@/features/contact-us/components/data';
 
 const ContactUsForm = () => {
@@ -59,7 +55,6 @@ const ContactUsForm = () => {
   );
 
   const serverSubmit = async (data: any, event?: React.BaseSyntheticEvent) => {
-    // Grab the native HTML Form element from the event
     const HTMLForm = event?.target as HTMLFormElement;
 
     const formData = new FormData(HTMLForm);
@@ -99,7 +94,6 @@ const ContactUsForm = () => {
         id="contact-us-form"
       >
         <FieldGroup>
-          {/* Input fields */}
           {inputFields.map((field) => (
             <FormInput
               key={field.name}
@@ -111,7 +105,6 @@ const ContactUsForm = () => {
             />
           ))}
 
-          {/* Country */}
           <FormSelect
             label="Country"
             register={register}
@@ -120,7 +113,6 @@ const ContactUsForm = () => {
             placeholder="Select a Country"
           />
 
-          {/* About */}
           <FormSelect
             label="Enquiry is about"
             register={register}
@@ -130,7 +122,6 @@ const ContactUsForm = () => {
             required
           />
 
-          {/* Message */}
           <FormTextarea
             control={control}
             name="message"
@@ -140,9 +131,7 @@ const ContactUsForm = () => {
           />
         </FieldGroup>
 
-        {/* Submit & reset */}
         <Field className="mt-8 justify-center" orientation="horizontal">
-          {/* Reset button */}
           <FormResetBtn reset={reset} success={state.success} />
 
           {/* Submit button */}
@@ -163,8 +152,6 @@ const ContactUsForm = () => {
               'Submit'
             )}
           </Button>
-          {/* dello animatedLogo with its asset if not used somewhere else */}
-          <AnimatedLogo />
         </Field>
       </form>
     </>

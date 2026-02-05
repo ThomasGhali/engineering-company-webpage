@@ -4,7 +4,7 @@ export const messages: Message[] = [
   {
     firstName: 'Thomas',
     lastName: 'Ghali',
-    email: 'thomasmetias29@gmail.com',
+    email: 'thomasghali@gmail.com',
     country: 'Egypt',
     phone: '+20 123 456 7890',
     id: '1',

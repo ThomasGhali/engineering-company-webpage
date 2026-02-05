@@ -80,8 +80,9 @@ export async function submitContactForm(
 
     // Send Message to mail via "resend"
     await resend.emails.send({
+      // To be replaced with an actual domain
       from: 'onboarding@resend.dev',
-      to: 'thomasmetias29@gmail.com',
+      to: process.env.ADMIN_EMAIL!,
       subject: validatedData.about,
       html: `
       <p><strong>Name:</strong> ${validatedData.firstName} ${validatedData.lastName}</p>

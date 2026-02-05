@@ -61,14 +61,12 @@ const DesktopCarouselControls = ({
     <>
       {/* Carousel nav container */}
       <div className="text-xl absolute bottom-5 right-5 z-10 bg-white hidden md:flex w-50 h-16 items-center justify-between px-7">
-        {/* Image index/count */}
         <div className="flex items-center">
           <span className="text-xl font-semibold mr-1">{imageIndex}</span>
 
           <span className="text-base">/ {imagesCount}</span>
         </div>
 
-        {/* Pause/play button */}
         <button
           onClick={pausePlay}
           className="flex-center gap-x-1 cursor-pointer md:p-2"
@@ -114,7 +112,6 @@ const DesktopCarouselControls = ({
           )}
         </button>
 
-        {/* Next button */}
         <button onClick={nextImage}>
           <Image
             src={nextArrow}

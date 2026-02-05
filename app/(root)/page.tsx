@@ -6,10 +6,10 @@ import OurExperience from '@/features/our-experience/components';
 export default async function Home() {
   return (
     <>
-      {/* <ImageCarousel />
+      <ImageCarousel />
       <OurMission />
       <CountupStats />
-      <OurExperience /> */}
+      <OurExperience />
     </>
   );
 }

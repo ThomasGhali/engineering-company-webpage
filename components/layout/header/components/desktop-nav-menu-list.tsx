@@ -11,14 +11,12 @@ import {
 
 import { DesktopMenuItemProps } from '../types';
 
-// dello the value prop
 const NavMenuItemCollapsible = ({
   label,
   children,
 }: {
   label: string;
   children: React.ReactNode;
-  value?: string;
 }) => (
   <NavigationMenuItem>
     <NavigationMenuTrigger className="bg-transparent! text-md py-11 text-white">

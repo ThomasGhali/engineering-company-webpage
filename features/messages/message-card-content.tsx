@@ -13,12 +13,14 @@ export default function MessageCardContent({ message }: { message: Message }) {
 
   return (
     <CardContent className="px-2">
+      {/* --- MESSAGE TITLE --- */}
       <div className="mb-1">
         <h4 className="text-sm text-center font-semibold text-slate-800 uppercase tracking-wide">
           Message
         </h4>
       </div>
 
+      {/* --- MESSAGE CONTENT --- */}
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <div
           className={cn(
@@ -31,6 +33,7 @@ export default function MessageCardContent({ message }: { message: Message }) {
           </p>
         </div>
 
+        {/* --- SHOW MORE/LESS BUTTON --- */}
         <div className="flex justify-center mt-2">
           <CollapsibleTrigger asChild>
             <button className="cursor-pointer rounded-md font-medium text-xs text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 flex items-center gap-1.5 transition-all duration-200">

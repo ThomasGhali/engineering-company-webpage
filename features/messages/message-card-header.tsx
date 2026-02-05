@@ -4,21 +4,22 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
-import { Calendar, Clock, Globe, Mail, Phone, User } from 'lucide-react';
+import { Calendar, Globe, Mail, Phone, User } from 'lucide-react';
 import { Message } from '@/features/messages/types';
 
 export default function MessageCardHeader({ message }: { message: Message }) {
   return (
     <CardHeader className="py-0 px-3">
-      {/* Subject Badge */}
+      {/* --- SUBJECT BADGE --- */}
       <div>
         <span className="inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-amber-900 shadow-sm">
           {message.about}
         </span>
       </div>
 
-      {/* Metadata Section */}
+      {/* --- METADATA SECTION --- */}
       <CardDescription className="space-y-1 mt-1">
+        {/* Name */}
         <div className="flex items-center gap-2.5 text-slate-700">
           <User className="w-3 h-3 text-slate-400 shrink-0" />
           <div className="flex items-baseline gap-1.5">
@@ -29,6 +30,7 @@ export default function MessageCardHeader({ message }: { message: Message }) {
           </div>
         </div>
 
+        {/* Country */}
         {message.country && (
           <div className="flex items-center gap-2.5 text-slate-700">
             <Globe className="w-3 h-3 text-slate-400 shrink-0" />
@@ -41,6 +43,7 @@ export default function MessageCardHeader({ message }: { message: Message }) {
           </div>
         )}
 
+        {/* Email */}
         {message.email && (
           <div className="flex items-center gap-2.5 text-slate-700 min-w-0 w-full">
             <Mail className="w-3 h-3 text-slate-400 shrink-0" />
@@ -60,6 +63,7 @@ export default function MessageCardHeader({ message }: { message: Message }) {
           </div>
         )}
 
+        {/* Phone */}
         {message.phone && (
           <div className="flex items-center gap-2.5 text-slate-700 min-w-0 w-full">
             <Phone className="w-3 h-3 text-slate-400 shrink-0" />
@@ -70,6 +74,7 @@ export default function MessageCardHeader({ message }: { message: Message }) {
           </div>
         )}
 
+        {/* Date */}
         <div className="flex items-center gap-2.5 text-slate-700">
           <Calendar className="w-3 h-3 text-slate-400 shrink-0" />
           <div className="flex items-baseline gap-1.5 text-xs">

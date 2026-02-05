@@ -209,7 +209,7 @@
   .required-input {
     @apply after:content-['*'] after:text-xl after:text-destructive;
   }
-  .button1 {
+  .button-action {
     @apply inline-flex items-center justify-center gap-2 px-5 py-2 rounded-lg text-sm font-medium text-white shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5;
   }
 }

@@ -57,14 +57,12 @@ export default function DashboardSidebar() {
       collapsible="icon"
       className="overflow-x-hidden border-r border-sidebar-border/50"
     >
-      {/* Header */}
       <SidebarCustomHeader open={open} />
-      {/* Content */}
+
       <SidebarContent className="px-2 py-4">
         {renderMenus(sideBarContent)}
       </SidebarContent>
 
-      {/* Footer */}
       <SidebarFooter className="border-t border-sidebar-border/50 p-4">
         <div
           className={`flex items-center ${open ? 'justify-between' : 'justify-center'}`}
@@ -74,6 +72,7 @@ export default function DashboardSidebar() {
               © 2026 Qualtech
             </span>
           )}
+
           <LogoutButton />
         </div>
       </SidebarFooter>

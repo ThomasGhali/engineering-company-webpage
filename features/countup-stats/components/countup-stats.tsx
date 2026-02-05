@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import CountUp from 'react-countup';
 import { inriaSans } from '@/app/fonts';
@@ -48,7 +48,7 @@ const CountupStats = () => {
   return (
     <section className="relative bg-charcoal-700 overflow-hidden border-t border-white/5">
       <div className="relative mx-auto max-w-7xl px-5 md:px-16 lg:px-24">
-        {/* 4-Column Grid */}
+        
         <div className="grid grid-cols-2 lg:grid-cols-4 py-12 md:py-20">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
