@@ -16,7 +16,7 @@ export default function QualtecLogo({
         alt="logo"
         width={width}
         height={height}
-        className={className}
+        className={`${className}`}
         priority
       />
     </>

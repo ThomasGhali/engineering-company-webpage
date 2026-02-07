@@ -29,7 +29,7 @@ A performant, secure, and scalable landing page for an engineering & constructio
 </div>
 
 > **<div align="center">Test Credentials</div>**<br> **Route**: `https://engineering-company-webpage-nwya.vercel.app/admin/sign-in` <br> **Username**: `thomas-ghali` <br> **Pass**: `pageadminpassword123` <br>
-> <small>*Note: Mutation actions like 'Delete' and 'Reply' are **disabled in the demo environment** to **preserve data for others**. You can see 'Delete' and 'Reply' actions in the [visuals provided below](#5-real-time-message-management), or contact me at `thomasmetias29@gmail.com`.*</small>
+> <small>*Note: Mutation actions like 'Delete' and 'Reply' are **disabled in the demo environment** to **preserve data for others**. You can see 'Delete' and 'Reply' actions in the visuals [for them](#5-real-time-message-management), and for the [ai-chatbot](#2-ai-powered-customer-support) are provided below, contact me for more access at `thomasmetias29@gmail.com`.*</small>
 
 ## Why This Matters
 

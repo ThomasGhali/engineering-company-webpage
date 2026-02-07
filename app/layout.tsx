@@ -20,12 +20,12 @@ export const metadata: Metadata = {
     default: 'Qualtec | Engineering Company',
     template: '%s | Qualtec',
   },
-  description: 'Modern engineering landing page with real-time project dashboard.',
+  description: 'Modern engineering landing page with real-time projects dashboard.',
   keywords: ['Engineering', 'Qualtec', 'Dashboard', 'Next.js', 'Vercel', 'Thomas Ghali'],
   authors: [{ name: 'Thomas Ghali' }],
   openGraph: {
     title: 'Qualtec Engineering',
-    description: 'Modern engineering landing page with real-time project dashboard.',
+    description: 'Modern engineering landing page with real-time projects dashboard.',
     type: 'website',
   },
 };

@@ -23,6 +23,13 @@ const aj = arcjet({
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
+  if (process.env.DEMO_MODE === 'true') {
+    return NextResponse.json(
+      { error: 'Demo mode is enabled' },
+      { status: 403 },
+    );
+  }
+
   // 2. Run Arcjet protection
   const decision = await aj.protect(req, {
     requested: 1,

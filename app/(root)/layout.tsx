@@ -24,6 +24,7 @@ export default function HomeLayout({
       <Suspense>
         <Footer />
       </Suspense>
+
       <Toaster position="top-center" duration={2000} />
     </>
   );

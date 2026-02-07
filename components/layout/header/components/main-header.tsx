@@ -20,14 +20,14 @@ const MainHeader = async () => {
     <>
       <HeaderVisibilityWrapper
         className="fixed inset-0 z-50 w-screen h-[68px] lg:h-22.5 
-          flex-center pl-6 pr-12 py-4 
+          flex items-center px-4 lg:pl-6 lg:pr-12 py-4 
           bg-charcoal-700 border-b border-white"
       >
         <div className="flex justify-between items-center w-full [&>*:not(:nth-child(3))]:cursor-pointer">
           {/* mobile */}
           <MobileMenu menuData={menuData as unknown as MobileMenuItemProps[]} />
 
-          <QualtecLogo width={120} height={30} />
+          <QualtecLogo width={120} height={30} className="max-md:w-20!" />
 
           {/* desktop */}
           <nav className="hidden lg:block">

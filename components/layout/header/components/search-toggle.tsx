@@ -28,7 +28,7 @@ const SearchToggle = () => {
       </div>
 
       <div className={`${searchHidden ? 'hidden' : 'block'}`}>
-        <Box className="max-w-[350px] min-w-[200px]">
+        <Box className="overflow-hidden w-30 sm:w-64 md:w-80 max-w-[350px]">
           <TextField.Root
             placeholder="Search projects..."
             size="2"

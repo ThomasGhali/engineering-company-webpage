@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useChat } from '@ai-sdk/react';
-import { MessageSquare, X, Send, Cpu, Bot } from 'lucide-react';
+import { toast } from 'sonner';
+import { Send, Loader } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import ChatBackground from '@/features/ai-chat/components/chat-background';
@@ -28,6 +29,14 @@ export default function AIChat() {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === 'true') {
+      toast.error('Demo mode is enabled. Unable to use this feature.', {
+        duration: 4000,
+      });
+      return;
+    }
+
     if (!textInput.trim() || isLoading) return;
 
     // Send using V5 object format
@@ -36,7 +45,7 @@ export default function AIChat() {
   };
 
   return (
-    <div className="fixed bottom-8 right-8 z-100 font-sans antialiased">
+    <div className="fixed bottom-4 md:bottom-8 right-0 md:right-8 z-100 font-sans antialiased">
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -44,7 +53,7 @@ export default function AIChat() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="absolute bottom-20 right-0 w-[400px] h-[600px] flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-charcoal-950/90 backdrop-blur-xl shadow-2xl shadow-black/50"
+            className="absolute bottom-20 right-0 w-screen md:w-[400px] h-[500px] md:h-[600px] flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-charcoal-950/90 backdrop-blur-xl shadow-2xl shadow-black/50"
           >
             <ChatHeader setIsOpen={setIsOpen} />
 
@@ -72,7 +81,7 @@ export default function AIChat() {
             <div className="p-4 bg-charcoal-900/50 border-t border-white/5 backdrop-blur-md">
               <form
                 onSubmit={handleFormSubmit}
-                className="relative flex items-end gap-2"
+                className="relative flex items-center gap-2"
               >
                 <div className="relative flex-1 group">
                   <textarea
@@ -95,12 +104,12 @@ export default function AIChat() {
                 <button
                   type="submit"
                   disabled={isLoading || !textInput.trim()}
-                  className="shrink-0 p-3 rounded-xl bg-linear-to-br from-primary-100 to-primary-hover text-white shadow-md shadow-orange-900/20 hover:shadow-orange-700/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none transition-all active:scale-95"
+                  className="shrink-0 p-3 mb-1 rounded-xl bg-linear-to-br from-primary-100 to-primary-hover text-white shadow-md shadow-orange-900/20 hover:shadow-orange-700/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none transition-all active:scale-95"
                 >
                   {isLoading ? (
-                    <Cpu className="w-5 h-5 animate-spin" />
+                    <Loader className="w-5 h-5 animate-spin" />
                   ) : (
-                    <Send className="w-5 h-5 ml-0.5" />
+                    <Send className="w-5 h-5" />
                   )}
                 </button>
               </form>
