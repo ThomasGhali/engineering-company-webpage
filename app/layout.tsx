@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://qualtec-web.vercel.app'),
+  metadataBase: new URL('https://engineering-company-webpage-nwya.vercel.app'),
   title: {
     default: 'Qualtec | Engineering Company',
     template: '%s | Qualtec',
