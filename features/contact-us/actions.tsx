@@ -13,6 +13,14 @@ export async function submitContactForm(
   prevState: FormState,
   formData: unknown,
 ): Promise<FormState> {
+  if (process.env.DEMO_MODE === 'true') {
+    return {
+      success: false,
+      error: 'Demo mode is enabled',
+      message: null,
+    };
+  }
+
   const req = new Request('https://localhost', {
     headers: await headers(),
   });

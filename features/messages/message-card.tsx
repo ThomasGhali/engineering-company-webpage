@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useActionState } from 'react';
+import { useState, useRef, useActionState, useEffect } from 'react';
 
 import { Card, CardFooter } from '@/components/ui/card';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
@@ -14,6 +14,7 @@ import { Message } from './types';
 
 import { deleteMessage } from './actions';
 import { Spinner } from '@/components/ui/spinner';
+import { toast } from '@/components/ui/sonner';
 import ReplyForm from '@/features/messages/message-card-reply-form';
 
 export default function MessageCard({ message }: { message: Message }) {
@@ -26,6 +27,21 @@ export default function MessageCard({ message }: { message: Message }) {
     deleteMessage,
     { error: undefined, success: undefined },
   );
+
+  useEffect(() => {
+    if (isDeletePending) {
+      toast.loading('Deleting message...', { id: 'delete-status' });
+    } else if (deleteState.error) {
+      toast.error('Error', {
+        description: deleteState.error,
+        id: 'delete-status',
+      });
+    } else if (deleteState.success) {
+      toast.success('Message deleted successfully', {
+        id: 'delete-status',
+      });
+    }
+  }, [isDeletePending, deleteState.error, deleteState.success]);
 
   return (
     <Card className="w-[270px] gap-3 border border-slate-200 shadow-lg hover:shadow-xl transition-all duration-300 bg-linear-to-r from-white to-slate-50/50 overflow-hidden">

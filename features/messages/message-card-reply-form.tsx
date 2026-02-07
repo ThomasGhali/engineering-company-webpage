@@ -12,7 +12,7 @@ import { CardContent, CardHeader } from '@/components/ui/card';
 import { Message } from '@/features/messages/types';
 
 import { replyMessage } from './actions';
-
+import { toast } from '@/components/ui/sonner';
 
 export default function ReplyForm({
   message,
@@ -29,14 +29,29 @@ export default function ReplyForm({
     { error: undefined, success: undefined },
   );
 
-  // Reset reply form when reply state changes
+  // Handle reply state and toasts
   useEffect(() => {
-    if (replyState.success) {
+    if (isReplyPending) {
+      toast.loading('Replying...', { id: 'reply-status' });
+    } else if (replyState.error) {
+      toast.error('Error', {
+        description: replyState.error,
+        id: 'reply-status',
+      });
+    } else if (replyState.success) {
+      toast.success('Reply sent successfully!', {
+        id: 'reply-status',
+      });
       setIsReplying(false);
       setIsReplied(true);
     }
-  }, [replyState.success]);
-
+  }, [
+    isReplyPending,
+    replyState.error,
+    replyState.success,
+    setIsReplying,
+    setIsReplied,
+  ]);
   return (
     <>
       {/* --- REPLY FORM --- */}
