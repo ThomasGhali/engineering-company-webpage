@@ -5,7 +5,7 @@
 ![Tailwind](https://img.shields.io/badge/Tailwind-4.0-38B2AC?logo=tailwind-css)
 ![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748?logo=prisma)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)<br>
-A performant, secure, and scalable landing page for an engineering & construction company with an admin dashboard, built with **Next.js 16** and modern full-stack technologies.
+A performant, secure, and scalable **landing page** for an engineering & construction company with an **admin dashboard**, built with **Next.js 16** and **modern full-stack technologies**.
 
 ---
 
@@ -84,7 +84,7 @@ A professional, strict AI chatbot support agent matched to the latest company pu
 
 
 ### 3. Secure Communication Pipeline
-The "Contact Us" form uses **Server Actions** for submission, **Zod schema validation**, and **Arcjet rate limiting**. Successfully validated messages are persisted to PostgreSQL and forwarded to the company's verified email via **Resend**.
+The "Contact Us" form uses **Server Actions** for submission, **Zod schema validation**, and **Arcjet rate limiting**. Successfully validated messages are persisted to PostgreSQL and forwarded to the company's verified email via `Resend`.
 <p align="center">
   <img src="./public/readme-images/contact-us1.png" width="34%" />
   <img src="./public/readme-images/contact-us2.png" width="63%" />

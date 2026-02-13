@@ -46,7 +46,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   pages: {
-    signIn: '/admin/sign-in',
+    signIn: '/admin/sign-in', // Redirect the unauthenticated admin here
   },
   session: {
     strategy: 'jwt',

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useActionState, useEffect } from 'react';
+import { useState, useTransition } from 'react';
 
 import { Card, CardFooter } from '@/components/ui/card';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
@@ -10,41 +10,41 @@ import { Trash2, Reply as ReplyIcon } from 'lucide-react';
 import MessageCardHeader from './message-card-header';
 import MessageCardContent from './message-card-content';
 
-import { Message } from './types';
+import { Message } from '../types';
 
-import { deleteMessage } from './actions';
+import { deleteMessage } from '../actions';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from '@/components/ui/sonner';
-import ReplyForm from '@/features/messages/message-card-reply-form';
+import ReplyForm from '@/features/messages/components/message-card-reply-form';
 
 export default function MessageCard({ message }: { message: Message }) {
   const [isReplying, setIsReplying] = useState(false);
   const [isReplied, setIsReplied] = useState(message.replied);
 
-  const deleteFormRef = useRef<HTMLFormElement>(null);
+  const [isDeletePending, startTransition] = useTransition();
 
-  const [deleteState, deleteAction, isDeletePending] = useActionState(
-    deleteMessage,
-    { error: undefined, success: undefined },
-  );
+  const handleDelete = () => {
+    const deletePromise = new Promise((resolve, reject) => {
+      startTransition(async () => {
+        const result = await deleteMessage(message.id);
 
-  useEffect(() => {
-    if (isDeletePending) {
-      toast.loading('Deleting message...', { id: 'delete-status' });
-    } else if (deleteState.error) {
-      toast.error('Error', {
-        description: deleteState.error,
-        id: 'delete-status',
+        if (result?.error) {
+          reject(result.error);
+        } else {
+          resolve(result.success);
+        }
       });
-    } else if (deleteState.success) {
-      toast.success('Message deleted successfully', {
-        id: 'delete-status',
-      });
-    }
-  }, [isDeletePending, deleteState.error, deleteState.success]);
+    });
+
+    toast.promise(deletePromise, {
+      loading: 'Deleting message...',
+      success: 'Message deleted successfully',
+      error: 'Error deleting message',
+    });
+  };
 
   return (
-    <Card className="w-[270px] gap-3 border border-slate-200 shadow-lg hover:shadow-xl transition-all duration-300 bg-linear-to-r from-white to-slate-50/50 overflow-hidden">
+    <Card className="flex flex-col justify-between w-[270px] gap-3 border border-slate-200 shadow-lg hover:shadow-xl transition-all duration-300 bg-linear-to-r from-white to-slate-50/50 overflow-hidden">
       {isReplying ? (
         <ReplyForm
           message={message}
@@ -71,14 +71,14 @@ export default function MessageCard({ message }: { message: Message }) {
               {isReplied ? 'Reply again' : 'Reply'}
             </button>
 
-            <form ref={deleteFormRef} action={deleteAction}>
+            <form>
               <input type="hidden" name="id" value={message.id} />
               <ConfirmDialog
                 title="Delete Message"
                 description="Are you sure you want to delete this message?"
                 confirmLabel="Delete"
                 variant="destructive"
-                onConfirm={() => deleteFormRef.current?.requestSubmit()}
+                onConfirm={handleDelete}
               >
                 <button className="button-action text-foreground hover:text-destructive">
                   {isDeletePending ? (

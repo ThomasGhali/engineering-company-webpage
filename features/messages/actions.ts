@@ -14,14 +14,14 @@ export const replyMessage = async (
   prevState: ReplyState,
   formData: FormData,
 ): Promise<ReplyState> => {
+  if (process.env.DEMO_MODE === 'true') {
+    return { success: false, error: 'Demo mode is enabled' };
+  }
+
   const id = formData.get('id') as string;
   const message = formData.get('message') as string;
   const sendToEmail = formData.get('sendToEmail') as string | undefined;
   const sendToAbout = formData.get('sendToAbout') as string;
-
-  if (process.env.DEMO_MODE === 'true') {
-    return { success: false, error: 'Demo mode is enabled' };
-  }
 
   if (!id || !message || !sendToAbout) {
     return { success: false, error: 'Invalid data' };
@@ -62,11 +62,8 @@ export const replyMessage = async (
 };
 
 export const deleteMessage = async (
-  prevState: ReplyState,
-  formData: FormData,
+  id:string,
 ): Promise<ReplyState> => {
-  const id = formData.get('id') as string;
-
   if (process.env.DEMO_MODE === 'true') {
     return { success: false, error: 'Demo mode is enabled' };
   }

@@ -24,10 +24,11 @@ const MainHeader = async () => {
           bg-charcoal-700 border-b border-white"
       >
         <div className="flex justify-between items-center w-full [&>*:not(:nth-child(3))]:cursor-pointer">
-          {/* mobile */}
           <MobileMenu menuData={menuData as unknown as MobileMenuItemProps[]} />
 
-          <QualtecLogo width={120} height={30} className="max-md:w-20!" />
+          <Link href="/">
+            <QualtecLogo width={120} height={30} className="max-md:w-20!" />
+          </Link>
 
           {/* desktop */}
           <nav className="hidden lg:block">

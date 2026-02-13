@@ -46,7 +46,7 @@ export async function POST(req: Request) {
 
   // 3. Stateless AI Call
   const result = streamText({
-    model: google('gemma-3-12b-it'),
+    model: google('gemini-2.5-flash'),
     system: QUALTEC_SYSTEM_PROMPT,
     messages: await convertToModelMessages(messages),
   });

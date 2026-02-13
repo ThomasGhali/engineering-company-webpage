@@ -6,7 +6,7 @@ import { CardContent } from '@/components/ui/card';
 import { useState } from 'react';
 import { Collapsible, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { Message } from './types';
+import { Message } from '../types';
 
 export default function MessageCardContent({ message }: { message: Message }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,9 +28,7 @@ export default function MessageCardContent({ message }: { message: Message }) {
             !isOpen && 'line-clamp-3',
           )}
         >
-          <p className="text-justify">
-            {message.message}
-          </p>
+          <p className="text-justify">{message.message}</p>
         </div>
 
         {/* --- SHOW MORE/LESS BUTTON --- */}

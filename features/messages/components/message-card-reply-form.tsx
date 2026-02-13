@@ -11,7 +11,7 @@ import { CardContent, CardHeader } from '@/components/ui/card';
 
 import { Message } from '@/features/messages/types';
 
-import { replyMessage } from './actions';
+import { replyMessage } from '../actions';
 import { toast } from '@/components/ui/sonner';
 
 export default function ReplyForm({
