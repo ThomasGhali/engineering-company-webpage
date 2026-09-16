@@ -67,7 +67,6 @@ export default function MessagesPagination({
     <div className="flex flex-col items-center justify-center gap-6 border-t bg-muted/2 px-4 py-6 sm:flex-row sm:gap-4 sm:px-8">
       <Pagination className="mx-0 w-auto">
         <PaginationContent className="gap-2 sm:gap-3">
-
           <PaginationItem>
             <PaginationPrevious
               onClick={() => goToPage(currentPage - 1)}
@@ -87,7 +86,6 @@ export default function MessagesPagination({
                   {'1'}
                 </PaginationLink>
               </PaginationItem>{' '}
-              
               <PaginationItem className="flex items-center justify-center px-1 text-muted-foreground/40">
                 <PaginationEllipsis className="h-4 w-4" />
               </PaginationItem>

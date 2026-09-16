@@ -1,4 +1,4 @@
-import { Link } from "@/types";
+import { Link } from '@/types';
 
 export interface MobileMenuCollapsibleProps {
   id: string;
@@ -49,7 +49,6 @@ export type DescriptionSectionProps = {
   description: string;
   genericLink?: Link;
 };
-
 
 export type DesktopMenuItemProps =
   | DesktopMenuCollapsibleProps

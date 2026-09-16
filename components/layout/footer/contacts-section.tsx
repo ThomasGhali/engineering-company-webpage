@@ -152,7 +152,7 @@ const ContactsSection = (): JSX.Element => {
       <div className="text-center">
         <h2 className="uppercase tracking-wider font-medium text-lg mb-4 mt-3">
           Head Office
-        </h2> 
+        </h2>
 
         <p>
           Ares Prime District <br /> Red Horizon Avenue, Block 42 <br /> Olympus

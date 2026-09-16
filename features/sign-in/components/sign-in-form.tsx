@@ -70,7 +70,13 @@ export default function SignInForm() {
               disabled={isPending}
               className="w-full h-11 bg-primary-100 hover:bg-primary-hover text-white font-semibold rounded-lg transition-all active:scale-[0.98] hover:shadow-[0_0_20px_rgba(239,76,0,0.2)] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isPending ? <>Signing In <Loader className="size-4 animate-spin" /></> : 'Sign In'}
+              {isPending ? (
+                <>
+                  Signing In <Loader className="size-4 animate-spin" />
+                </>
+              ) : (
+                'Sign In'
+              )}
             </Button>
 
             {/* Footer Form Info */}

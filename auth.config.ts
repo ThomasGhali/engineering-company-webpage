@@ -18,7 +18,7 @@ export default {
       if (!isPublicRoute && !isLoggedIn) {
         return false;
       }
-      
+
       return true;
     },
   },

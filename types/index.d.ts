@@ -15,4 +15,3 @@ interface ScrollRevealReturn {
   y: MotionValue<number>;
   opacity: MotionValue<number>;
 }
-

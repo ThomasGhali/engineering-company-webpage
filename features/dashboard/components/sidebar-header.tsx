@@ -6,7 +6,11 @@ export default function SidebarCustomHeader({ open }: { open: boolean }) {
   return (
     <SidebarHeader className="border-b border-sidebar-border/50 px-4 py-5 group-data-[collapsible=icon]:px-0">
       <div className="flex items-center gap-3 transition-all duration-200 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-0">
-          <QualtecLogo height={35} width={90} className='p-[2px] bg-charcoal-700 rounded-sm group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-10 group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:rounded-full' />
+        <QualtecLogo
+          height={35}
+          width={90}
+          className="p-[2px] bg-charcoal-700 rounded-sm group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:w-10 group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:rounded-full"
+        />
         <div
           className={`flex flex-col transition-all duration-200 ${
             open

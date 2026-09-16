@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-const ImageRibbon = ({src}: {src: string}) => {
+const ImageRibbon = ({ src }: { src: string }) => {
   return (
     <div className="relative h-[220px] md:h-[315px]">
       <Image

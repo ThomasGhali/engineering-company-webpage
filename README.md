@@ -1,5 +1,7 @@
 # Engineering Company Webpage with Dashboard (Qualtec)
+
 <!-- markdownlint-disable md033 -->
+
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19-blue?logo=react)
 ![Tailwind](https://img.shields.io/badge/Tailwind-4.0-38B2AC?logo=tailwind-css)
@@ -26,10 +28,11 @@ A performant, secure, and scalable **landing page** for an engineering & constru
 **Explore the admin dashboard.**
 
 [![Dashboard Access](https://img.shields.io/badge/Admin_Dashboard-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://engineering-company-webpage-nwya.vercel.app/admin/sign-in)
+
 </div>
 
 > **<div align="center">Test Credentials</div>**<br> **Route**: `https://engineering-company-webpage-nwya.vercel.app/admin/sign-in` <br> **Username**: `thomas-ghali` <br> **Pass**: `pageadminpassword123` <br>
-> <small>*Note: Mutation actions like 'Delete' and 'Reply' are **disabled in the demo environment** to **preserve data for others**. You can see 'Delete' and 'Reply' actions in the visuals [for them](#5-real-time-message-management), and for the [ai-chatbot](#2-ai-powered-customer-support) are provided below, contact me for more access at `thomasmetias29@gmail.com`.*</small>
+> <small>_Note: Mutation actions like 'Delete' and 'Reply' are **disabled in the demo environment** to **preserve data for others**. You can see 'Delete' and 'Reply' actions in the visuals [for them](#5-real-time-message-management), and for the [ai-chatbot](#2-ai-powered-customer-support) are provided below, contact me for more access at `thomasmetias29@gmail.com`._</small>
 
 ## More on Why This Tech Choice Matters
 
@@ -48,19 +51,23 @@ As an engineering and construction company, digital reliability reflects physica
 ---
 
 <a name="toc"></a>
+
 ## 📂 Table of Contents
 
-  - [⚡ Core Capabilities](#core-capabilities) <details> <summary><i>View sub-sections</i></summary> <ul> <li><a href="#1-high-performance-landing-page">1. High-Performance Landing Page</a></li> <li><a href="#2-ai-powered-customer-support">2. AI-Powered Customer Support</a></li> <li><a href="#3-secure-communication-pipeline">3. Secure Communication Pipeline</a></li> <li><a href="#4-admin-command-center">4. Admin Command Center</a></li> <li><a href="#5-real-time-message-management">5. Real-time Message Management</a></li> </ul> </details>
-  - [🔍 Technical Deep Dive](#technical-deep-dive) <details> <summary><i>View technical details</i></summary> <ul> <li><a href="#data-integrity--security">Data Integrity & Security</a></li> <li><a href="#server-side-excellence">Server-Side Excellence</a></li> </ul> </details>
-  - [⚙️ Environment Setup](#environment-setup) <details> <summary><i>View setup steps</i></summary> <ul> <li><a href="#prerequisites">Prerequisites</a></li> <li><a href="#installation">Installation</a></li> <li><a href="#environment-variables">Environment Variables</a></li> <li><a href="#database-setup">Database Setup</a></li> <li><a href="#run-development-server">Run Development Server</a></li> <li><a href="#build-for-production">Build for Production</a></li> </ul> </details>
-  - [📁 Project Structure](#project-structure)
-  - [📜 License](#license)
+- [⚡ Core Capabilities](#core-capabilities) <details> <summary><i>View sub-sections</i></summary> <ul> <li><a href="#1-high-performance-landing-page">1. High-Performance Landing Page</a></li> <li><a href="#2-ai-powered-customer-support">2. AI-Powered Customer Support</a></li> <li><a href="#3-secure-communication-pipeline">3. Secure Communication Pipeline</a></li> <li><a href="#4-admin-command-center">4. Admin Command Center</a></li> <li><a href="#5-real-time-message-management">5. Real-time Message Management</a></li> </ul> </details>
+- [🔍 Technical Deep Dive](#technical-deep-dive) <details> <summary><i>View technical details</i></summary> <ul> <li><a href="#data-integrity--security">Data Integrity & Security</a></li> <li><a href="#server-side-excellence">Server-Side Excellence</a></li> </ul> </details>
+- [⚙️ Environment Setup](#environment-setup) <details> <summary><i>View setup steps</i></summary> <ul> <li><a href="#prerequisites">Prerequisites</a></li> <li><a href="#installation">Installation</a></li> <li><a href="#environment-variables">Environment Variables</a></li> <li><a href="#database-setup">Database Setup</a></li> <li><a href="#run-development-server">Run Development Server</a></li> <li><a href="#build-for-production">Build for Production</a></li> </ul> </details>
+- [📁 Project Structure](#project-structure)
+- [📜 License](#license)
 
 ---
+
 ## Core Capabilities
 
 ### 1. High-Performance Landing Page
+
 Modern, animated UI built with **Motion** and **Tailwind CSS**. All data is fetched from the database on the server, ensuring peak performance and SEO.
+
 <p>
   <img src="./public/readme-images/desktop-ui1.jpg" width="48%" />
   <img src="./public/readme-images/desktop-ui2.jpg" width="48%" />
@@ -70,10 +77,12 @@ Modern, animated UI built with **Motion** and **Tailwind CSS**. All data is fetc
   <a href="#toc"><b>⤴ Back to Contents</b></a>
 </div>
 
-
 ### 2. AI-Powered Customer Support
+
 A professional, strict AI chatbot support agent matched to the latest company public data. It is protected by **Arcjet** for bot detection and rate limiting to prevent infrastructure abuse.<br>
-><small>The LLM is powered by gemma-3 from google which has great limits and sticks to commands and rules for professionalism.</small>
+
+> <small>The LLM is powered by gemma-3 from google which has great limits and sticks to commands and rules for professionalism.</small>
+
 <p align="center">
   <img src="./public/readme-images/ai-chat1.png" width="31.2%" />
   <img src="./public/readme-images/ai-chat2.png" width="32%" />
@@ -84,9 +93,10 @@ A professional, strict AI chatbot support agent matched to the latest company pu
   <a href="#toc"><b>⤴ Back to Contents</b></a>
 </div>
 
-
 ### 3. Secure Communication Pipeline
+
 The "Contact Us" form uses **Server Actions** for submission, **Zod schema validation**, and **Arcjet rate limiting**. Successfully validated messages are persisted to PostgreSQL and forwarded to the company's verified email via `Resend`.
+
 <p align="center">
   <img src="./public/readme-images/contact-us1.png" width="34%" />
   <img src="./public/readme-images/contact-us2.png" width="63%" />
@@ -96,9 +106,10 @@ The "Contact Us" form uses **Server Actions** for submission, **Zod schema valid
   <a href="#toc"><b>⤴ Back to Contents</b></a>
 </div>
 
-
 ### 4. Admin Command Center
+
 A secure dashboard that requires **authentication** first. It provides full control over webpage data, allowing admins to edit components without any coding background. Secured with **NextAuth.js v5** and **JWT token versioning** for server-side session invalidation.
+
 <p align="center">
   <img src="./public/readme-images/admin1.png" width="25%" />
   <img src="./public/readme-images/admin2.jpg" width="73%" />
@@ -108,9 +119,10 @@ A secure dashboard that requires **authentication** first. It provides full cont
   <a href="#toc"><b>⤴ Back to Contents</b></a>
 </div>
 
-
 ### 5. Real-time Message Management
+
 Respond to or delete user messages directly from the dashboard. This system uses **Server Actions** for operations and `revalidatePath` for perfect cache synchronization. Replies are sent via the **Resend API**.
+
 <p align="center">
   <img src="./public/readme-images/send1.jpg" width="30%" />
   <img src="./public/readme-images/send2.jpg" width="30%" />
@@ -223,21 +235,21 @@ npm start
 I used folder-based structure to ensure future-proof code for scalability.
 
 ```md
-├── app/                    # Next.js App Router (pages, layouts, and API)
-├── components/             # Shared React components
-│   ├── layout/             # Navigation, footer, and shell components
-│   └── ui/                 # Reusable Radix UI primitives
-├── features/               # Feature-based modular logic
-│   ├── ai-chat/            # Support chatbot implementation
-│   ├── contact-us/         # Contact form & server actions
-│   ├── dashboard/          # Admin management interfaces
-│   ├── messages/           # Inbox & message handling
-│   └── ...                 # UI features (carousel, mission, stats)
-├── hooks/                  # Custom React hooks
-├── lib/                    # Shared utilities (Prisma, Arcjet, Resend)
-├── prisma/                 # Database schema & client configuration
-├── public/                 # Static assets & readme images
-└── types/                  # Global TypeScript definitions
+├── app/ # Next.js App Router (pages, layouts, and API)
+├── components/ # Shared React components
+│ ├── layout/ # Navigation, footer, and shell components
+│ └── ui/ # Reusable Radix UI primitives
+├── features/ # Feature-based modular logic
+│ ├── ai-chat/ # Support chatbot implementation
+│ ├── contact-us/ # Contact form & server actions
+│ ├── dashboard/ # Admin management interfaces
+│ ├── messages/ # Inbox & message handling
+│ └── ... # UI features (carousel, mission, stats)
+├── hooks/ # Custom React hooks
+├── lib/ # Shared utilities (Prisma, Arcjet, Resend)
+├── prisma/ # Database schema & client configuration
+├── public/ # Static assets & readme images
+└── types/ # Global TypeScript definitions
 ```
 
 <div align="right">

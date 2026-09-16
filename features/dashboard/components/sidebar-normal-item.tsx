@@ -14,12 +14,13 @@ export const SideBarNormalItem = ({
 }: SideBarNormalItemprops): JSX.Element => {
   const { open } = useSidebar();
   return (
-  <SidebarMenuItem>
-    <SidebarMenuButton asChild tooltip={label}>
-      <Link href={href!}>
-        <Icon className={`h-5 w-5 ${open ? '' : '-ml-2'}`} />
-        <span>{label}</span>
-      </Link>
-    </SidebarMenuButton>
-  </SidebarMenuItem>
-)};
+    <SidebarMenuItem>
+      <SidebarMenuButton asChild tooltip={label}>
+        <Link href={href!}>
+          <Icon className={`h-5 w-5 ${open ? '' : '-ml-2'}`} />
+          <span>{label}</span>
+        </Link>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  );
+};

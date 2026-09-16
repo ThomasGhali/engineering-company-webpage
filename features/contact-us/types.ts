@@ -63,7 +63,9 @@ export interface FormTextareaProps<T extends FieldValues> {
 export type FormState = {
   success: boolean;
   error?: string | null;
-  fieldErrors?: Partial<Record<keyof z.infer<typeof contactFormSchema>, string[]>>;
+  fieldErrors?: Partial<
+    Record<keyof z.infer<typeof contactFormSchema>, string[]>
+  >;
   message?: string | null;
 };
 
@@ -73,4 +75,4 @@ export type InputField = {
   type?: React.HTMLInputTypeAttribute;
   placeholder: string;
   required?: boolean;
-}
+};

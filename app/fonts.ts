@@ -1,4 +1,10 @@
-import { Inria_Serif, Inria_Sans, Kodchasan, Inter, Poppins } from 'next/font/google';
+import {
+  Inria_Serif,
+  Inria_Sans,
+  Kodchasan,
+  Inter,
+  Poppins,
+} from 'next/font/google';
 
 export const inriaSerif = Inria_Serif({
   subsets: ['latin'],

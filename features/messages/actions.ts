@@ -61,9 +61,7 @@ export const replyMessage = async (
   }
 };
 
-export const deleteMessage = async (
-  id:string,
-): Promise<ReplyState> => {
+export const deleteMessage = async (id: string): Promise<ReplyState> => {
   if (process.env.DEMO_MODE === 'true') {
     return { success: false, error: 'Demo mode is enabled' };
   }
