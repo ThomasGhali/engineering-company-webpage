@@ -6,7 +6,7 @@ export const ABOUT_OPTIONS = [
   'Complaint',
   'Work Experience',
   'Charitable Support',
-  'Suspected reqruitment fraud',
+  'Suspected recruitment fraud',
 ] as const;
 
 export const COUNTRIES = [

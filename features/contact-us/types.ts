@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { ABOUT_OPTIONS } from '@/features/contact-us/constants';
+import { ABOUT_OPTIONS, COUNTRIES } from '@/features/contact-us/constants';
 import {
   FieldValues,
   Path,
@@ -27,13 +27,13 @@ export const contactFormSchema = z.object({
     .string()
     .min(2, 'Last Name must contain at least 2 characters.')
     .max(50, 'Last Name must be at most 50 characters.'),
-  email: z.email(),
+  email: z.email('Invalid email address.'),
   phone: z
     .string()
     .regex(/^\+?[1-9]\d{1,15}$/, 'Invalid phone number.')
     .optional()
     .or(z.literal('')),
-  country: z.string().optional().or(z.literal('')),
+  country: z.enum(COUNTRIES).optional().or(z.literal('')),
   about: z.enum(ABOUT_OPTIONS, {
     error: () => ({ message: 'Select what your message is about.' }),
   }),
