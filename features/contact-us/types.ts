@@ -21,16 +21,16 @@ export interface FormInputProps<T extends FieldValues> {
 export const contactFormSchema = z.object({
   firstName: z
     .string()
-    .min(2, 'must contain at least 2 characters')
-    .max(50, 'Name must be at most 50 characters.'),
+    .min(2, 'First Name must contain at least 2 characters.')
+    .max(50, 'First Name must be at most 50 characters.'),
   lastName: z
     .string()
-    .min(2, 'Name must contain at least 2 characters')
-    .max(50, 'Name must be at most 50 characters.'),
+    .min(2, 'Last Name must contain at least 2 characters.')
+    .max(50, 'Last Name must be at most 50 characters.'),
   email: z.email(),
   phone: z
     .string()
-    .regex(/^\+?[1-9]\d{1,15}$/, 'Invalid phone number')
+    .regex(/^\+?[1-9]\d{1,15}$/, 'Invalid phone number.')
     .optional()
     .or(z.literal('')),
   country: z.string().optional().or(z.literal('')),
@@ -39,8 +39,8 @@ export const contactFormSchema = z.object({
   }),
   message: z
     .string()
-    .min(10, 'Message is at least 10 characters')
-    .max(250, 'Message is at most 250 characters'),
+    .min(10, 'Message is at least 10 characters.')
+    .max(250, 'Message is at most 250 characters.'),
 });
 
 export interface FormSelectProps<T extends FieldValues> {
