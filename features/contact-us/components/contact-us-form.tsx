@@ -81,7 +81,7 @@ const ContactUsForm = () => {
         id: 'form-status', // Replaces the loading toast
       });
     } else if (state?.success) {
-      toast.success('Message sent successfully!', {
+      toast.success(state.message, {
         id: 'form-status', // Replaces the loading toast
       });
       reset();
@@ -135,7 +135,7 @@ const ContactUsForm = () => {
         </FieldGroup>
 
         <Field className="mt-8 justify-center" orientation="horizontal">
-          <FormResetBtn reset={reset} success={state.success} />
+          <FormResetBtn reset={reset} />
 
           {/* Submit button */}
           <Button

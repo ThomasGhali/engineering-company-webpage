@@ -11,14 +11,11 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { FieldValues, UseFormReset } from 'react-hook-form';
-import { FormState } from '@/features/contact-us/types';
 
 export default function FormResetBtn<T extends FieldValues>({
   reset,
-  success,
 }: {
   reset: UseFormReset<T>;
-  success: boolean;
 }) {
   return (
     <Dialog>
@@ -27,7 +24,6 @@ export default function FormResetBtn<T extends FieldValues>({
           type="button"
           className="rounded-xs hover:border cursor-pointer hover:bg-gray-200"
           variant="outline"
-          disabled={success}
         >
           Reset
         </Button>
@@ -52,7 +48,6 @@ export default function FormResetBtn<T extends FieldValues>({
               variant="destructive"
               className="rounded-xs"
               onClick={() => reset()}
-              disabled={success}
             >
               Reset
             </Button>
