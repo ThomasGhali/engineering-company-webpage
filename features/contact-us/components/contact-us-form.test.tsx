@@ -1,11 +1,11 @@
-import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 import ContactUsForm from '@/features/contact-us/components/contact-us-form';
 import { submitContactForm } from '@/features/contact-us/actions';
 import { contactFormSchema } from '@/features/contact-us/types';
-import { ABOUT_OPTIONS } from '@/features/contact-us/constants';
 import { z } from 'zod';
+import { toast } from '@/components/ui/sonner';
 
 interface FormElements {
   firstName: HTMLInputElement;
@@ -22,10 +22,20 @@ vi.mock('.././actions', () => ({
   submitContactForm: vi.fn(),
 }));
 
+const pushMock = vi.fn();
+
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
-    push: vi.fn(),
+    push: pushMock,
   }),
+}));
+
+vi.mock('@/components/ui/sonner', () => ({
+  toast: {
+    loading: vi.fn(),
+    success: vi.fn(),
+    error: vi.fn(),
+  },
 }));
 
 describe('ContactUsForm', () => {
@@ -125,14 +135,11 @@ describe('ContactUsForm', () => {
 
       expect(submitContactForm).not.toHaveBeenCalled();
     });
-  });
 
-  describe('Happy path', () => {
-    test('valid inputs submits form', async () => {
+    test('handles server submission error gracefully', async () => {
       vi.mocked(submitContactForm).mockResolvedValue({
-        success: true,
-        error: null,
-        fieldErrors: undefined,
+        success: false,
+        error: 'Error message just for testing purposes',
         message: null,
       });
 
@@ -146,42 +153,78 @@ describe('ContactUsForm', () => {
       await fillValidForm(user);
       await user.click(submitButton);
 
-      expect(submitContactForm).toHaveBeenCalledOnce();
+      await waitFor(() =>
+        expect(toast.error).toHaveBeenCalledWith('Error', {
+          description: 'Error message just for testing purposes',
+          id: 'form-status',
+        }),
+      );
     });
   });
 
-  test('Reset Button works as expected', async () => {
-    vi.mocked(submitContactForm).mockResolvedValue({
-      success: true,
-      error: null,
-      fieldErrors: undefined,
-      message: null,
+  describe('Happy path', () => {
+    test('valid inputs submits form', async () => {
+      vi.mocked(submitContactForm).mockResolvedValue({
+        success: true,
+        error: null,
+        fieldErrors: undefined,
+        message: 'Message sent successfully!',
+      });
+
+      render(<ContactUsForm />);
+      const user = userEvent.setup();
+
+      const submitButton = screen.getByRole('button', {
+        name: /submit/i,
+      });
+
+      await fillValidForm(user);
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        expect(toast.loading).toHaveBeenCalledWith('Submitting...', {
+          id: 'form-status',
+        });
+
+        expect(toast.success).toHaveBeenCalledWith(
+          'Message sent successfully!',
+          {
+            id: 'form-status',
+          },
+        );
+      });
+      expect(submitContactForm).toHaveBeenCalledOnce();
+      expect(pushMock).toHaveBeenCalledWith('/');
     });
+  });
 
-    render(<ContactUsForm />);
-    const user = userEvent.setup();
-    const { firstName, lastName, about, message, email, phone, country } =
-      getFormInputElements();
+  describe('Form reset', () => {
+    test('Reset Button works as expected', async () => {
+      render(<ContactUsForm />);
+      const user = userEvent.setup();
+      const { firstName, lastName, about, message, email, phone, country } =
+        getFormInputElements();
 
-    const resetButton = screen.getByRole('button', {
-      name: /reset/i,
+      const resetButton = screen.getByRole('button', {
+        name: /reset/i,
+      });
+
+      await fillValidForm(user);
+      await user.click(resetButton);
+
+      const confirmResetButton = screen.getByRole('button', {
+        name: /reset/i,
+      });
+
+      await user.click(confirmResetButton);
+
+      expect(firstName).toHaveValue('');
+      expect(lastName).toHaveValue('');
+      expect(email).toHaveValue('');
+      expect(phone).toHaveValue('');
+      expect(country).toHaveDisplayValue('Select a Country');
+      expect(about).toHaveDisplayValue('Select an Option');
+      expect(message).toHaveValue('');
     });
-
-    await fillValidForm(user);
-    await user.click(resetButton);
-
-    const confirmResetButton = screen.getByRole('button', {
-      name: /reset/i,
-    });
-
-    await user.click(confirmResetButton);
-
-    expect(firstName).toHaveTextContent('');
-    expect(lastName).toHaveTextContent('');
-    expect(email).toHaveTextContent('');
-    expect(phone).toHaveTextContent('');
-    expect(country).toHaveDisplayValue('Select a Country');
-    expect(about).toHaveDisplayValue('Select an Option');
-    expect(message).toHaveTextContent('');
   });
 });
