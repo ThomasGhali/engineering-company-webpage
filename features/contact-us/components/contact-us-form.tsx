@@ -18,7 +18,11 @@ import FormSelect from '@/features/contact-us/components/form-select';
 import FormTextarea from '@/features/contact-us/components/form-textarea';
 import FormResetBtn from '@/features/contact-us/components/form-reset-btn';
 
-import { contactFormSchema, FormState } from '@/features/contact-us/types';
+import {
+  contactFormSchema,
+  ContactFormData,
+  FormState,
+} from '@/features/contact-us/types';
 import { ABOUT_OPTIONS, COUNTRIES } from '@/features/contact-us/constants';
 import { submitContactForm } from '@/features/contact-us/actions';
 import { inputFields } from '@/features/contact-us/components/data';
@@ -26,21 +30,20 @@ import { inputFields } from '@/features/contact-us/components/data';
 const ContactUsForm = () => {
   const router = useRouter();
 
-  const { control, register, reset, handleSubmit } = useForm<
-    z.infer<typeof contactFormSchema>
-  >({
-    resolver: zodResolver(contactFormSchema),
-    mode: 'onChange',
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      country: '',
-      about: '' as z.infer<typeof contactFormSchema>['about'],
-      message: '',
-    },
-  });
+  const { control, register, reset, handleSubmit } =
+    useForm<ContactFormData>({
+      resolver: zodResolver(contactFormSchema),
+      mode: 'onChange',
+      defaultValues: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        country: '',
+        about: '' as ContactFormData['about'],
+        message: '',
+      },
+    });
 
   const initialState: FormState = {
     success: false,
@@ -55,7 +58,7 @@ const ContactUsForm = () => {
   );
 
   const serverSubmit = async (
-    data: z.infer<typeof contactFormSchema>,
+    data: ContactFormData,
     event?: React.BaseSyntheticEvent,
   ) => {
     const HTMLForm = event?.target as HTMLFormElement;

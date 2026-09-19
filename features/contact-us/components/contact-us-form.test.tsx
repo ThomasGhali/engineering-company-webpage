@@ -3,8 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 import ContactUsForm from '@/features/contact-us/components/contact-us-form';
 import { submitContactForm } from '@/features/contact-us/actions';
-import { contactFormSchema } from '@/features/contact-us/types';
-import { z } from 'zod';
+import { ContactFormData } from '@/features/contact-us/types';
 import { toast } from '@/components/ui/sonner';
 
 interface FormElements {
@@ -23,7 +22,6 @@ vi.mock('.././actions', () => ({
 }));
 
 const pushMock = vi.fn();
-
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: pushMock,
@@ -43,7 +41,7 @@ describe('ContactUsForm', () => {
     vi.clearAllMocks();
   });
 
-  const validFormInput: z.infer<typeof contactFormSchema> = {
+  const validFormInput: ContactFormData = {
     firstName: 'Thomas',
     lastName: 'Ghali',
     email: 'valid@gmail.com',

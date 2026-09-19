@@ -43,6 +43,8 @@ export const contactFormSchema = z.object({
     .max(250, 'Message is at most 250 characters.'),
 });
 
+export type ContactFormData = z.infer<typeof contactFormSchema>;
+
 export interface FormSelectProps<T extends FieldValues> {
   name: Path<T>;
   register: UseFormRegister<T>;
@@ -63,14 +65,12 @@ export interface FormTextareaProps<T extends FieldValues> {
 export type FormState = {
   success: boolean;
   error?: string | null;
-  fieldErrors?: Partial<
-    Record<keyof z.infer<typeof contactFormSchema>, string[]>
-  >;
+  fieldErrors?: Partial<Record<keyof ContactFormData, string[]>>;
   message?: string | null;
 };
 
 export type InputField = {
-  name: Path<z.infer<typeof contactFormSchema>>;
+  name: Path<ContactFormData>;
   label: string;
   type?: React.HTMLInputTypeAttribute;
   placeholder: string;

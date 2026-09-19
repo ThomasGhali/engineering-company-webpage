@@ -1,6 +1,10 @@
 'use server';
 
-import { contactFormSchema, FormState } from '@/features/contact-us/types';
+import {
+  contactFormSchema,
+  ContactFormData,
+  FormState,
+} from '@/features/contact-us/types';
 
 import prisma from '@/lib/prisma';
 
@@ -21,37 +25,12 @@ export async function submitContactForm(
     };
   }
 
-  const req = new Request('https://localhost', {
-    headers: await headers(),
-  });
-
-  // Validate request & consume 1 credit
-  const decision = await aj.protect(req, {
-    requested: 1,
-  });
-
-  // Rate limit reached (denied)
-  if (decision.isDenied()) {
-    if (decision.reason.isRateLimit()) {
-      return {
-        success: false,
-        error: 'Too many requests. Please Try again in an hour.',
-        message: null,
-      };
-    }
-
-    // Bot is used to submit  the form (denied)
-    if (decision.reason.isBot()) {
-      return {
-        success: false,
-        error: 'Bot activity detected',
-        message: null,
-      };
-    }
-
+  // Arcjet rate limiting and bots protection
+  const protection = await checkArcjetProtection();
+  if (!protection.ok) {
     return {
       success: false,
-      error: 'Request denied',
+      error: protection.error,
       message: null,
     };
   }
@@ -86,20 +65,7 @@ export async function submitContactForm(
       data: validatedData,
     });
 
-    // Send Message to mail via "resend"
-    await resend.emails.send({
-      // To be replaced with an actual domain
-      from: 'onboarding@resend.dev',
-      to: process.env.ADMIN_EMAIL!,
-      subject: validatedData.about,
-      html: `
-      <p><strong>Name:</strong> ${validatedData.firstName} ${validatedData.lastName}</p>
-      <p><strong>Email:</strong> ${validatedData.email}</p>
-      <p><strong>Country:</strong> ${validatedData.country || 'Not Provided'}</p>
-      <p><strong>Phone:</strong> ${validatedData.phone || 'Not Provided'}</p>
-      <p><strong>Message:</strong> ${validatedData.message}</p>
-      `,
-    });
+    await sendEmailViaResend(validatedData);
 
     return {
       success: true,
@@ -116,3 +82,60 @@ export async function submitContactForm(
     };
   }
 }
+
+const checkArcjetProtection = async (): Promise<{
+  ok: boolean;
+  error?: string;
+}> => {
+  const req = new Request('https://localhost', {
+    headers: await headers(),
+  });
+
+  // Validate request & consume 1 credit
+  const decision = await aj.protect(req, {
+    requested: 1,
+  });
+
+  // Rate limit reached (denied)
+  if (decision.isDenied()) {
+    if (decision.reason.isRateLimit()) {
+      return {
+        ok: false,
+        error: 'Too many requests. Please Try again in an hour.',
+      };
+    }
+
+    // Bot is used to submit  the form (denied)
+    if (decision.reason.isBot()) {
+      return {
+        ok: false,
+        error: 'Bot activity detected',
+      };
+    }
+
+    return {
+      ok: false,
+      error: 'Request denied',
+    };
+  }
+
+  return {
+    ok: true,
+  };
+};
+
+const sendEmailViaResend = async (validatedData: ContactFormData) => {
+  await resend.emails.send({
+    // To be replaced with an actual domain
+    from: 'onboarding@resend.dev',
+    to: process.env.ADMIN_EMAIL!,
+    subject: validatedData.about,
+    html: `
+      <p><strong>Name:</strong> ${validatedData.firstName} ${validatedData.lastName}</p>
+      <p><strong>Email:</strong> ${validatedData.email}</p>
+      <p><strong>Country:</strong> ${validatedData.country || 'Not Provided'}</p>
+      <p><strong>Phone:</strong> ${validatedData.phone || 'Not Provided'}</p>
+      <p><strong>Message:</strong> ${validatedData.message}</p>
+      `,
+  });
+};
