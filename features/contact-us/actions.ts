@@ -83,7 +83,7 @@ export async function submitContactForm(
   }
 }
 
-const checkArcjetProtection = async (): Promise<{
+export const checkArcjetProtection = async (): Promise<{
   ok: boolean;
   error?: string;
 }> => {
