@@ -60,19 +60,9 @@ export async function submitContactForm(
   const validatedData = result.data;
 
   try {
-    // Create Message in DB
     await prisma.messages.create({
       data: validatedData,
     });
-
-    await sendEmailViaResend(validatedData);
-
-    return {
-      success: true,
-      error: null,
-      fieldErrors: undefined,
-      message: 'Message sent successfully!',
-    };
   } catch (error) {
     return {
       success: false,
@@ -81,6 +71,19 @@ export async function submitContactForm(
       message: 'Failed to save message.',
     };
   }
+
+  try {
+    await sendEmailViaResend(validatedData);
+  } catch (error) {
+    console.error('Failed to send notification email:', error);
+  }
+  
+  return {
+    success: true,
+    error: null,
+    fieldErrors: undefined,
+    message: 'Message sent successfully!',
+  };
 }
 
 export const checkArcjetProtection = async (): Promise<{
