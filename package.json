@@ -13,9 +13,13 @@
     "start": "next start -p 4444",
     "lint": "eslint . --quiet",
     "test": "vitest",
+    "test:run": "vitest run",
     "format": "prettier --write .",
     "test:e2e": "playwright test",
-    "test:report": "playwright show-report"
+    "test:report": "playwright show-report",
+    "ts:check": "tsc --noEmit",
+    "check": "lint-staged && npm run ts:check",
+    "prepare": "husky"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.21",
@@ -69,7 +73,9 @@
     "@vitejs/plugin-react": "^6.1.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
+    "husky": "^9.1.7",
     "jsdom": "^29.1.1",
+    "lint-staged": "^17.5.1",
     "prisma": "^7.3.0",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
@@ -77,5 +83,14 @@
     "typescript": "^5",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^5.0.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml,css}": [
+      "prettier --write"
+    ]
   }
 }
