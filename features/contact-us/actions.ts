@@ -77,7 +77,7 @@ export async function submitContactForm(
   } catch (error) {
     console.error('Failed to send notification email:', error);
   }
-  
+
   return {
     success: true,
     error: null,

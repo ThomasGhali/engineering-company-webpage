@@ -30,20 +30,19 @@ import { inputFields } from '@/features/contact-us/components/data';
 const ContactUsForm = () => {
   const router = useRouter();
 
-  const { control, register, reset, handleSubmit } =
-    useForm<ContactFormData>({
-      resolver: zodResolver(contactFormSchema),
-      mode: 'onChange',
-      defaultValues: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        country: '',
-        about: '' as ContactFormData['about'],
-        message: '',
-      },
-    });
+  const { control, register, reset, handleSubmit } = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
+    mode: 'onChange',
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      country: '',
+      about: '' as ContactFormData['about'],
+      message: '',
+    },
+  });
 
   const initialState: FormState = {
     success: false,
