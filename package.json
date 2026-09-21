@@ -15,11 +15,13 @@
     "test": "vitest",
     "test:run": "vitest run",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "test:e2e": "playwright test",
     "test:report": "playwright show-report",
     "ts:check": "tsc --noEmit",
     "check": "lint-staged && npm run ts:check",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.21",
