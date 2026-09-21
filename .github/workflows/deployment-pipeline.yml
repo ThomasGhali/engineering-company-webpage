@@ -1,3 +1,5 @@
+name: Deployment Pipeline
+
 on:
   push:
     branches:
@@ -8,7 +10,7 @@ on:
       - main
 
 jobs:
-  verify_code:
+  verify-code:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     env:
@@ -66,8 +68,65 @@ jobs:
 
   deploy-code:
     if: github.event_name == 'push'
-    needs: [verify_code]
+    needs: [verify-code]
     runs-on: ubuntu-latest
     steps:
       - name: Deploy
         run: curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
+
+  tag_release:
+    runs-on: ubuntu-latest
+    needs: [deploy-code]
+    env:
+      COMMIT_MESSAGES: ${{toJson(github.event.commits.*.message)}}
+    if: >-
+      github.event_name == 'push' &&
+      !contains(toJson(github.event.commits.*.message), '#skip')
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Bump git tag version
+        uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          TAG_PREFIX: v
+          DEFAULT_BUMP: patch
+          DRY_RUN: false
+
+  discord_notification:
+    runs-on: ubuntu-latest
+    if: always() && github.event_name == 'push'
+    needs: [deploy-code, verify-code]
+    steps:
+      - name: Notify Discord on success
+        if: needs.deploy-code.result == 'success'
+        uses: sarisia/actions-status-discord@4f4322cb1878ec4400fcf6a10315d2169a90877d
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          nodetail: true
+          title: 'Deployment successful'
+          content: '✅ **Deployment Successful!** A new version deployed to production'
+          description: |
+            **Repository:** ${{github.event.repository.full_name}}
+            **Branch:** ${{github.ref_name}}
+            **Commit:** ${{github.event.head_commit.id}}
+            **Message:** ${{github.event.head_commit.message}}
+            **Author:** ${{github.event.head_commit.author.name}}
+            **Workflow:** ${{github.workflow}}
+            **Job:** ${{github.job}}
+
+      - name: Notify Discord on failure
+        if: needs.verify-code.result == 'failure' || needs.deploy-code.result == 'failure'
+        uses: sarisia/actions-status-discord@4f4322cb1878ec4400fcf6a10315d2169a90877d
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          nodetail: true
+          title: 'Deployment failed'
+          content: '❌ **Build Failed!** The pipeline encountered an error'
+          description: |
+            **Commit:** ${{github.event.head_commit.id}}
+            **Message:** ${{github.event.head_commit.message}}
+            **Author:** ${{github.event.head_commit.author.name}}
