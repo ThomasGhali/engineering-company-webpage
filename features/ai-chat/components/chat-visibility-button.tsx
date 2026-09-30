@@ -8,11 +8,12 @@ export default function ChatVisibilityButton({
   setIsOpen: (isOpen: boolean) => void;
 }) {
   return (
-    <button className="max-md:mr-3 hover:scale-110 hover:bg-linear-to-br hover:from-primary-100 hover:to-primary-hover transition-transform duration-200 relative flex items-center justify-center w-14 h-14 bg-charcoal-900 rounded-full border border-white/10 hover:border-primary-100/50">
-      <div
-        onClick={() => setIsOpen(!isOpen)}
-        className=" absolute inset-0 rounded-full bg-charcoal-900 m-px flex items-center justify-center overflow-hidden"
-      >
+    <button
+      aria-label={isOpen ? 'Close chat' : 'Open chat'}
+      onClick={() => setIsOpen(!isOpen)}
+      className="max-md:mr-3 hover:scale-110 hover:bg-linear-to-br hover:from-primary-100 hover:to-primary-hover transition-transform duration-200 relative flex items-center justify-center w-14 h-14 bg-charcoal-900 rounded-full border border-white/10 hover:border-primary-100/50"
+    >
+      <div className=" absolute inset-0 rounded-full bg-charcoal-900 m-px flex items-center justify-center overflow-hidden">
         {isOpen ? (
           <X className="w-6 h-6 text-neutral-200" />
         ) : (

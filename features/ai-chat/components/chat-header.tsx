@@ -25,6 +25,7 @@ export default function ChatHeader({
       </div>
       <button
         onClick={() => setIsOpen(false)}
+        aria-label="Close chat window"
         className="p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-white/10 transition-colors"
       >
         <X size={18} />
