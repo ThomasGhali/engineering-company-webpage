@@ -5,13 +5,28 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
+
 type UserInstance = ReturnType<typeof userEvent.setup>;
-import { describe, expect, test } from 'vitest';
 
 const userOpensChat = async (user: UserInstance) => {
   const chatToggleButton = screen.getByRole('button', { name: /Open chat/ });
   await user.click(chatToggleButton);
 };
+
+const sendMessage = vi.fn();
+
+vi.mock('@ai-sdk/react', () => ({
+  useChat: () => ({
+    sendMessage,
+    messages: [],
+    status: 'ready',
+  }),
+}));
+
+beforeEach(() => {
+  vi.clearAllMocks();
+});
 
 describe('AIChat', () => {
   describe('when closed (initial)', () => {
@@ -90,6 +105,64 @@ describe('AIChat', () => {
       await waitForElementToBeRemoved(() =>
         screen.queryByRole('heading', { name: /qualtec ai assistant/i }),
       );
+    });
+  });
+
+  describe('sending a message', () => {
+    const openChatAndTypeMessage = async (user: UserInstance) => {
+      await userOpensChat(user);
+      const chatTextarea = screen.getByPlaceholderText(
+        /Type your technical query.../,
+      );
+      await user.type(chatTextarea, 'Hello, AI!');
+    };
+
+    test('calls sendMessage with the typed text on submit click', async () => {
+      render(<AIChat />);
+      const user = userEvent.setup();
+
+      await openChatAndTypeMessage(user);
+      const sendButton = screen.getByRole('button', { name: /Send message/ });
+
+      await user.click(sendButton);
+      expect(sendMessage).toHaveBeenCalledOnce();
+      expect(sendMessage).toHaveBeenCalledWith({ text: 'Hello, AI!' });
+    });
+
+    test('sends on Enter', async () => {
+      render(<AIChat />);
+      const user = userEvent.setup();
+
+      await openChatAndTypeMessage(user);
+
+      await user.keyboard('{Enter}');
+
+      expect(sendMessage).toHaveBeenCalledOnce();
+      expect(sendMessage).toHaveBeenCalledWith({ text: 'Hello, AI!' });
+    });
+
+    test('does not send on Shift+Enter', async () => {
+      render(<AIChat />);
+      const user = userEvent.setup();
+
+      await openChatAndTypeMessage(user);
+
+      await user.keyboard('{Shift>}{/Enter}');
+
+      expect(sendMessage).not.toHaveBeenCalled();
+    });
+    test('clears the input after sending', async () => {
+      render(<AIChat />);
+      const user = userEvent.setup();
+
+      await openChatAndTypeMessage(user);
+      const sendButton = screen.getByRole('button', { name: /Send message/ });
+      await user.click(sendButton);
+
+      const chatTextarea = screen.getByPlaceholderText(
+        /Type your technical query.../,
+      );
+      expect(chatTextarea).toHaveValue('');
     });
   });
 });

@@ -103,6 +103,7 @@ export default function AIChat() {
 
                 <button
                   type="submit"
+                  aria-label="Send message"
                   disabled={isLoading || !textInput.trim()}
                   className="shrink-0 p-3 mb-1 rounded-xl bg-linear-to-br from-primary-100 to-primary-hover text-white shadow-md shadow-orange-900/20 hover:shadow-orange-700/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none transition-all active:scale-95"
                 >
