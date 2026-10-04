@@ -151,6 +151,7 @@ describe('AIChat', () => {
 
       expect(sendMessage).not.toHaveBeenCalled();
     });
+
     test('clears the input after sending', async () => {
       render(<AIChat />);
       const user = userEvent.setup();
@@ -163,6 +164,42 @@ describe('AIChat', () => {
         /Type your technical query.../,
       );
       expect(chatTextarea).toHaveValue('');
+    });
+  });
+
+  describe('empty input', () => {
+    test('disables the send button for empty or whitespace-only text', async () => {
+      const user = userEvent.setup();
+      render(<AIChat />);
+
+      await userOpensChat(user);
+
+      const chatTextarea = screen.getByPlaceholderText(
+        /Type your technical query.../,
+      );
+      const sendButton = screen.getByRole('button', { name: /Send message/ });
+
+      expect(sendButton).toBeDisabled();
+
+      await user.type(chatTextarea, '   ');
+      expect(sendButton).toBeDisabled();
+    });
+
+    test('does not call sendMessage when Enter is pressed', async () => {
+      const user = userEvent.setup();
+      render(<AIChat />);
+
+      await userOpensChat(user);
+
+      const chatTextarea = screen.getByPlaceholderText(
+        /Type your technical query.../,
+      );
+      const sendButton = screen.getByRole('button', { name: /Send message/ });
+
+      await user.type(chatTextarea, '   ');
+      await user.keyboard('{Enter}');
+
+      expect(sendMessage).not.toHaveBeenCalled();
     });
   });
 });
