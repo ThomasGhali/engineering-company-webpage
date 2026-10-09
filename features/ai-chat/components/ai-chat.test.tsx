@@ -5,6 +5,7 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { toast } from 'sonner';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 type UserInstance = ReturnType<typeof userEvent.setup>;
@@ -24,11 +25,27 @@ vi.mock('@ai-sdk/react', () => ({
   }),
 }));
 
+const { errorToast } = vi.hoisted(() => ({ errorToast: vi.fn() }));
+
+vi.mock('sonner', () => ({
+  toast: {
+    error: errorToast,
+  },
+}));
+
 beforeEach(() => {
   vi.clearAllMocks();
 });
 
 describe('AIChat', () => {
+  const openChatAndTypeMessage = async (user: UserInstance) => {
+    await userOpensChat(user);
+    const chatTextarea = screen.getByPlaceholderText(
+      /Type your technical query.../,
+    );
+    await user.type(chatTextarea, 'Hello, AI!');
+  };
+
   describe('when closed (initial)', () => {
     test('shows the toggle button', () => {
       render(<AIChat />);
@@ -109,14 +126,6 @@ describe('AIChat', () => {
   });
 
   describe('sending a message', () => {
-    const openChatAndTypeMessage = async (user: UserInstance) => {
-      await userOpensChat(user);
-      const chatTextarea = screen.getByPlaceholderText(
-        /Type your technical query.../,
-      );
-      await user.type(chatTextarea, 'Hello, AI!');
-    };
-
     test('calls sendMessage with the typed text on submit click', async () => {
       render(<AIChat />);
       const user = userEvent.setup();
@@ -198,6 +207,43 @@ describe('AIChat', () => {
 
       await user.type(chatTextarea, '   ');
       await user.keyboard('{Enter}');
+
+      expect(sendMessage).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('demo mode features restrictions', () => {
+    beforeEach(() => {
+      vi.stubEnv('NEXT_PUBLIC_DEMO_MODE', 'true');
+      vi.stubEnv('DEMO_MODE', 'true');
+    });
+
+    test('shows an error toast', async () => {
+      const user = userEvent.setup();
+      render(<AIChat />);
+
+      await openChatAndTypeMessage(user);
+
+      const sendButton = screen.getByRole('button', { name: /Send message/ });
+      await user.click(sendButton);
+
+      expect(errorToast).toHaveBeenCalledOnce();
+      expect(errorToast).toHaveBeenCalledWith(
+        'Demo mode is enabled. Unable to use this feature.',
+        {
+          duration: 4000,
+        },
+      );
+    });
+
+    test('does not call sendMessage', async () => {
+      const user = userEvent.setup();
+      render(<AIChat />);
+
+      await openChatAndTypeMessage(user);
+
+      const sendButton = screen.getByRole('button', { name: /Send message/ });
+      await user.click(sendButton);
 
       expect(sendMessage).not.toHaveBeenCalled();
     });
