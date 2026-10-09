@@ -1,12 +1,12 @@
 import AIChat from '@/features/ai-chat/components/ai-chat';
+import { useChat } from '@ai-sdk/react';
 import {
   render,
   screen,
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { toast } from 'sonner';
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
 type UserInstance = ReturnType<typeof userEvent.setup>;
 
@@ -18,11 +18,11 @@ const userOpensChat = async (user: UserInstance) => {
 const sendMessage = vi.fn();
 
 vi.mock('@ai-sdk/react', () => ({
-  useChat: () => ({
+  useChat: vi.fn(() => ({
     sendMessage,
     messages: [],
     status: 'ready',
-  }),
+  })),
 }));
 
 const { errorToast } = vi.hoisted(() => ({ errorToast: vi.fn() }));
@@ -218,6 +218,10 @@ describe('AIChat', () => {
       vi.stubEnv('DEMO_MODE', 'true');
     });
 
+    afterEach(() => {
+      vi.unstubAllEnvs();
+    });
+
     test('shows an error toast', async () => {
       const user = userEvent.setup();
       render(<AIChat />);
@@ -246,6 +250,74 @@ describe('AIChat', () => {
       await user.click(sendButton);
 
       expect(sendMessage).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('while loading', () => {
+    beforeEach(() => {
+      vi.mocked(useChat).mockReturnValue({
+        sendMessage,
+        messages: [],
+        status: 'streaming',
+      } as unknown as ReturnType<typeof useChat>);
+    });
+
+    test('shows the typing indicator and loading button', async () => {
+      const user = userEvent.setup();
+      render(<AIChat />);
+
+      await userOpensChat(user);
+
+      // Because we mocked status: 'streaming', it renders in the loading state immediately!
+      const loadingButton = screen.getByRole('button', { name: 'Loading' });
+      expect(loadingButton).toBeInTheDocument();
+      expect(loadingButton).toBeDisabled();
+    });
+
+    test('ignores Enter', async () => {
+      const user = userEvent.setup();
+      render(<AIChat />);
+
+      await openChatAndTypeMessage(user);
+
+      await user.keyboard('{Enter}');
+
+      expect(sendMessage).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('with existing messages', () => {
+    beforeEach(() => {
+      vi.mocked(useChat).mockReturnValue({
+        sendMessage,
+        messages: [
+          {
+            id: '1',
+            role: 'user',
+            parts: [{ type: 'text', text: 'Hello!' }],
+          },
+          {
+            id: '2',
+            role: 'assistant',
+            parts: [{ type: 'text', text: 'Hi there!' }],
+          },
+        ],
+        status: 'submitted',
+      } as unknown as ReturnType<typeof useChat>);
+    });
+
+    test('renders the messages and hides the empty-state background', async () => {
+      const user = userEvent.setup();
+      render(<AIChat />);
+
+      await userOpensChat(user);
+
+      expect(screen.getByText('Hello!')).toBeInTheDocument();
+      expect(screen.getByText('Hi there!')).toBeInTheDocument();
+
+      expect(
+        screen.queryByTestId('empty-state-background'),
+      ).not.toBeInTheDocument();
     });
   });
 });
